@@ -311,20 +311,3 @@ Open `regression_analysis.ipynb` and run all cells. Expected runtime: ~30–60 s
 3. Statsmodels Documentation: https://www.statsmodels.org/
 4. UCLA OARC Regression Analysis Guide: https://stats.oarc.ucla.edu/stata/output/regression-analysis/
 5. Anthropic. (2026). *Claude* [Large language model]. Used as a programming and debugging assistant. https://claude.ai
-
----
-
-## 🏆 Grading Checklist
-
-| Requirement | Points | Status |
-|-------------|--------|--------|
-| Dataset meets requirements + clear context | 10 | ✅ |
-| Data cleaning + documentation | 10 | ✅ |
-| Distributions + descriptive stats | 10 | ✅ |
-| Outlier detection + rationale | 10 | ✅ |
-| Correlation + relationship analysis | 10 | ✅ |
-| Simple regression + interpretation + hypothesis test | 10 | ✅ |
-| Multiple regression with dummies + tests + CI | 15 | ✅ |
-| Diagnostics (plots + tests) including VIF | 15 | ✅ |
-| Sensitivity analysis (add/drop models) | 10 | ✅ |
-| **Total** | **100** | **✅** |
