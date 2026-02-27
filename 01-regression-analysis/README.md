@@ -3,8 +3,8 @@
 
 **Course**: DSCI 503 — Statistical Inference and Stochastic Processes
 **Institution**: University of Bay Area, Masters in Applied Data Science
-**Due Date**: February 27, 2026
-**Author**: Ahmad Avaristan
+**Due Date**: March 2, 2026
+**Author**: Ahmad Naggayev
 
 ---
 
