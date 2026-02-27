@@ -3,7 +3,7 @@
 
 **Program**: Master of Science in Applied Data Science
 **Institution**: University of Bay Area
-**Author**: Ahmad Avaristan
+**Author**: Ahmad Avar Naggayev
 
 ---
 
