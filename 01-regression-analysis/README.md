@@ -3,7 +3,7 @@
 
 **Course**: Master's in Data Science - Statistical Methods
 **Due Date**: February 27, 2026
-**Author**: [Your Name]
+**Author**: Ahmad Naggayev
 
 ---
 
@@ -19,7 +19,7 @@ This project performs a comprehensive statistical analysis and regression modeli
 
 ---
 
-## 🚀 Quick Start (For Professors & Reviewers)
+## 🚀 Quick Start (For Reviewers)
 
 ### Prerequisites
 - Python 3.8 or higher
@@ -105,22 +105,6 @@ stats_regression_project/
 
 ## 📧 Contact
 
-For questions about this analysis, please contact [your email]
+For questions about this analysis, please contact ahmadavar956@gmail.com
 
 ---
-
-## 🏆 Grading Checklist
-
-This project addresses all 100 points:
-
-- ✅ Dataset meets requirements (10 pts)
-- ✅ Data cleaning + documentation (10 pts)
-- ✅ Distributions + descriptive stats (10 pts)
-- ✅ Outlier detection + rationale (10 pts)
-- ✅ Correlation + relationship analysis (10 pts)
-- ✅ Simple regression + interpretation + test (10 pts)
-- ✅ Multiple regression with dummies + tests + CI (15 pts)
-- ✅ Diagnostics (plots + tests) including VIF (15 pts)
-- ✅ Sensitivity analysis (10 pts)
-
-**Total**: 100/100 points
