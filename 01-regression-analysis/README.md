@@ -306,8 +306,6 @@ Open `regression_analysis.ipynb` and run all cells. Expected runtime: ~30–60 s
 
 ## 📚 References
 
-1. James, G., Witten, D., Hastie, T., & Tibshirani, R. (2013). *An Introduction to Statistical Learning*. Springer.
-2. Montgomery, D. C., Peck, E. A., & Vining, G. G. (2012). *Introduction to Linear Regression Analysis*. Wiley.
-3. Statsmodels Documentation: https://www.statsmodels.org/
-4. UCLA OARC Regression Analysis Guide: https://stats.oarc.ucla.edu/stata/output/regression-analysis/
-5. Anthropic. (2026). *Claude* [Large language model]. Used as a programming and debugging assistant. https://claude.ai
+1. Statsmodels Documentation: https://www.statsmodels.org/
+2. UCLA OARC Regression Analysis Guide: https://stats.oarc.ucla.edu/stata/output/regression-analysis/
+3. Anthropic. (2026). *Claude* [Large language model]. Used as a programming and debugging assistant. https://claude.ai
