@@ -1,6 +1,9 @@
 # Statistical Analysis & Regression Modeling - Requirements
 # Python 3.8+
 
+# Streamlit app
+streamlit>=1.32.0
+
 # Core data science libraries
 pandas==2.1.4
 numpy==1.26.2
