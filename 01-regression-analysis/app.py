@@ -230,7 +230,7 @@ with tabs[1]:
 
     # ── Missing Values ────────────────────────────────────────────────────────
     st.subheader("Missing Value Audit")
-    raw_df = pd.read_csv("data/student_salary_data.csv")
+    raw_df = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "student_salary_data.csv"))
     missing = raw_df.isnull().sum()
     missing_pct = (missing / len(raw_df) * 100).round(1)
     missing_df = pd.DataFrame({
