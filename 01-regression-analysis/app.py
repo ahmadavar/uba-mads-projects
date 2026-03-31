@@ -18,14 +18,14 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-DARK_BG   = "#0f172a"
-PANEL_BG  = "#1e293b"
-BORDER    = "#334155"
-BLUE      = "#38bdf8"
-ORANGE    = "#f97316"
-GREEN     = "#4ade80"
-RED       = "#f87171"
-TEXT      = "white"
+DARK_BG   = "#ffffff"
+PANEL_BG  = "#f8fafc"
+BORDER    = "#e2e8f0"
+BLUE      = "#2563eb"
+ORANGE    = "#ea580c"
+GREEN     = "#16a34a"
+RED       = "#dc2626"
+TEXT      = "#1e293b"
 
 def style_ax(ax, fig):
     fig.patch.set_facecolor(DARK_BG)
@@ -159,7 +159,7 @@ Using Ordinary Least Squares (OLS) regression on 500 recent graduates, we quanti
             "Property": ["Observations", "Variables", "Salary Range", "Mean Salary", "Median Salary", "Missing Data"],
             "Value": ["500 graduates", "10 (7 numeric, 3 categorical)", "$39,041 — $196,178", "$106,338", "$105,821", "~5% in 3 columns"]
         }
-        st.dataframe(pd.DataFrame(summary_data), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(summary_data), width="stretch", hide_index=True)
 
     st.markdown("---")
     st.markdown("### Hypotheses We Test")
@@ -189,7 +189,7 @@ Using Ordinary Least Squares (OLS) regression on 500 recent graduates, we quanti
             "Tier1 · Tier2 · Tier3 (institutional prestige)",
         ]
     })
-    st.dataframe(var_dict, use_container_width=True, hide_index=True)
+    st.dataframe(var_dict, width="stretch", hide_index=True)
 
     st.markdown("---")
     st.markdown("### Key Findings Preview")
@@ -221,7 +221,7 @@ with tabs[1]:
     desc = fdf[num_cols].describe().round(2)
     desc.loc["skewness"] = fdf[num_cols].skew().round(3)
     desc.loc["kurtosis"] = fdf[num_cols].kurtosis().round(3)
-    st.dataframe(desc, use_container_width=True)
+    st.dataframe(desc, width="stretch")
     st.caption("**Note:** Salary kurtosis = 4.66 — heavier tails than a normal distribution. A cluster of high earners pulls the distribution. Realistic for income data.")
 
     st.markdown("---")
@@ -237,7 +237,7 @@ with tabs[1]:
         "% Missing": missing_pct.values,
         "Action": ["Mean imputed" if m > 0 else "No action needed" for m in missing.values]
     })
-    st.dataframe(missing_df[missing_df["Missing Count"] >= 0], use_container_width=True, hide_index=True)
+    st.dataframe(missing_df[missing_df["Missing Count"] >= 0], width="stretch", hide_index=True)
     st.caption("**Why mean imputation?** With only 1–2% missingness, mean imputation preserves n=500 and introduces minimal bias.")
 
     st.markdown("---")
@@ -252,7 +252,7 @@ with tabs[1]:
         n_out = ((fdf[col] < lb) | (fdf[col] > ub)).sum()
         outlier_rows.append({"Variable": col, "Lower Bound": f"{lb:.0f}", "Upper Bound": f"{ub:.0f}",
                               "Outliers Found": n_out, "% of Data": f"{n_out/len(fdf)*100:.1f}%", "Decision": "Retained"})
-    st.dataframe(pd.DataFrame(outlier_rows), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(outlier_rows), width="stretch", hide_index=True)
     st.caption("**All outliers retained.** The salary outliers ($39K–$196K) represent genuinely exceptional graduates. Removing them would bias the model toward average earners.")
 
     st.markdown("---")
@@ -299,7 +299,7 @@ with tabs[1]:
             for r in corr_salary.values
         ]
     })
-    st.dataframe(corr_display, use_container_width=True, hide_index=True)
+    st.dataframe(corr_display, width="stretch", hide_index=True)
     st.warning("⚡ **Most counterintuitive finding:** Study hours have r = -0.026 with salary. Students who study more don't earn more. The market rewards demonstrable outcomes (internships, projects), not library time.")
 
     st.markdown("---")
@@ -361,20 +361,23 @@ with tabs[1]:
     st.subheader("Salary by Category")
     cc1, cc2, cc3 = st.columns(3)
 
-    for col_name, ax_obj, col_ref, palette_name in [
-        ("Major", cc1, "Major", "Blues_r"),
-        ("University_Tier", cc2, "University_Tier", "Greens_r"),
-        ("Gender", cc3, "Gender", "Purples_r"),
+    for col_name, col_widget, palette_name in [
+        ("Major", cc1, "Blues"),
+        ("University_Tier", cc2, "Greens"),
+        ("Gender", cc3, "Purples"),
     ]:
         fig, ax = plt.subplots(figsize=(4, 3.5))
         order = fdf.groupby(col_name)["Salary"].median().sort_values(ascending=False).index
+        unique_vals = fdf[col_name].nunique()
+        palette_colors = sns.color_palette(palette_name, unique_vals)
         sns.boxplot(data=fdf, x=col_name, y="Salary", order=order, ax=ax,
-                    palette=palette_name, flierprops={"marker":"o","markerfacecolor":BLUE,"markersize":3})
+                    hue=col_name, palette=palette_colors, legend=False,
+                    flierprops={"marker":"o","markerfacecolor":BLUE,"markersize":3})
         ax.set_title(f"Salary by {col_name.replace('_',' ')}")
         ax.set_xlabel("")
         ax.tick_params(axis="x", rotation=15)
         style_ax(ax, fig)
-        col_ref.pyplot(fig); plt.close()
+        col_widget.pyplot(fig); plt.close()
 
     # Salary stats by major table
     st.markdown("**Mean salary by major:**")
@@ -383,7 +386,7 @@ with tabs[1]:
     major_stats["Mean Salary"] = major_stats["Mean Salary"].apply(lambda x: f"${x:,.0f}")
     major_stats["Median Salary"] = major_stats["Median Salary"].apply(lambda x: f"${x:,.0f}")
     major_stats["Max Salary"] = major_stats["Max Salary"].apply(lambda x: f"${x:,.0f}")
-    st.dataframe(major_stats, use_container_width=True)
+    st.dataframe(major_stats, width="stretch")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -441,7 +444,7 @@ $$H_a: \beta_1 \neq 0 \quad \text{(GPA does affect salary)}$$
         "Statistic": ["t-statistic", "p-value", "α (significance level)", "Decision"],
         "Value": [f"{m1.tvalues['GPA']:.2f}", f"{m1.pvalues['GPA']:.2e}", "0.05", "✅ Reject H₀"]
     }
-    st.dataframe(pd.DataFrame(ht_data), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(ht_data), width="stretch", hide_index=True)
     st.success("**Conclusion:** GPA has a statistically significant positive effect on starting salary. The p-value is so small we can be virtually certain this is not a chance finding.")
 
     # ── CI ────────────────────────────────────────────────────────────────────
@@ -508,7 +511,7 @@ Correlation tells you that Internships and Salary move together (r = 0.60). But 
         "Reference (omitted)": ["Business Analytics", "Tier1", "Female"],
         "Interpretation": ["Salary vs Business Analytics", "Salary vs Tier 1", "Salary vs Female"]
     })
-    st.dataframe(dummy_df, use_container_width=True, hide_index=True)
+    st.dataframe(dummy_df, width="stretch", hide_index=True)
     st.caption("The omitted category is captured in the intercept. Every dummy coefficient = salary difference *relative to that reference group*.")
 
     # ── Model results ─────────────────────────────────────────────────────────
@@ -545,7 +548,7 @@ Correlation tells you that Internships and Salary move together (r = 0.60). But 
             f"background-color: {'#14532d' if row['p-value'] < 0.05 else '#450a0a'}" if col == "Significant" else ""
             for col in row.index
         ], axis=1),
-        use_container_width=True, hide_index=True
+        width="stretch", hide_index=True
     )
 
     # ── Coefficient bar chart ─────────────────────────────────────────────────
@@ -717,7 +720,7 @@ The effect of internships on salary does **not** depend on GPA. High-GPA student
         "Model 2 (Full)": [f"{m2.rsquared:.4f}", f"{m2.rsquared_adj:.4f}", f"{m2.aic:,.1f}", "9", "N/A"],
         "Model 3 (Interaction)": [f"{m3.rsquared:.4f}", f"{m3.rsquared_adj:.4f}", f"{m3.aic:,.1f}", "10", "❌ No (p=0.200)"],
     })
-    st.dataframe(comp, use_container_width=True, hide_index=True)
+    st.dataframe(comp, width="stretch", hide_index=True)
     st.caption("The R² improvement is negligible (+0.16pp). AIC is virtually identical. Model 3 adds zero value over Model 2.")
 
     # ── Visualization ─────────────────────────────────────────────────────────
@@ -766,7 +769,7 @@ with tabs[5]:
         {"#": "4", "Assumption": "Independence",         "Test": "Durbin-Watson",        "Result": f"DW = {dw_stat:.3f}",           "Status": "✅ Satisfied"},
         {"#": "5", "Assumption": "No Multicollinearity", "Test": "VIF",                  "Result": f"Max VIF = {max_vif:.2f} (Age)",  "Status": "⚠️ Age/GPA elevated — key predictors OK"},
     ])
-    st.dataframe(assume_df, use_container_width=True, hide_index=True)
+    st.dataframe(assume_df, width="stretch", hide_index=True)
 
     st.markdown("---")
 
@@ -854,7 +857,7 @@ This is cross-sectional data — each row is a different graduate. No time serie
     with st.expander("5. Multicollinearity — VIF Check"):
         vif_df = pd.DataFrame({"Variable": X_vif.columns, "VIF": [round(v, 2) for v in vif_vals]})
         vif_df["Status"] = vif_df["VIF"].apply(lambda v: "✅ OK" if v < 10 else "⚠️ Elevated")
-        st.dataframe(vif_df, use_container_width=True, hide_index=True)
+        st.dataframe(vif_df, width="stretch", hide_index=True)
         st.warning("""
 **Age** and **GPA** show elevated VIF. This is expected — both variables have narrow ranges (Age: 21–30, GPA: 2.0–4.0)
 which can inflate VIF calculations. The key predictors (Internships, Projects, Major, Tier) all show acceptable VIF < 5.
@@ -880,7 +883,7 @@ with tabs[6]:
         "Adj. R²":     [f"{m2.rsquared_adj:.4f}", f"{m_noint.rsquared_adj:.4f}", f"{m3.rsquared_adj:.4f}"],
         "AIC":         [f"{m2.aic:,.1f}", f"{m_noint.aic:,.1f}", f"{m3.aic:,.1f}"],
     })
-    st.dataframe(models_table, use_container_width=True, hide_index=True)
+    st.dataframe(models_table, width="stretch", hide_index=True)
 
     # ── Visual comparison ─────────────────────────────────────────────────────
     fig, axes = plt.subplots(1, 2, figsize=(10, 4))
@@ -977,7 +980,7 @@ GPA coefficient inflated by **{gpa_inflate:.1f}%** — from ${gpa_full:,.0f} →
         "Model": list(gpa_coefs.keys()),
         "GPA Coefficient": [f"${v:,.0f}" for v in gpa_coefs.values()],
     })
-    st.dataframe(stab_df, use_container_width=True, hide_index=True)
+    st.dataframe(stab_df, width="stretch", hide_index=True)
     st.caption("GPA coefficient is stable across all three models — evidence of low multicollinearity and a robust finding.")
 
 
@@ -1083,7 +1086,7 @@ with tabs[7]:
             "Predicted Salary": f"${prediction + delta:,.0f}",
             "vs Current Profile": f"+${delta:,.0f}" if delta > 0 else (f"${delta:,.0f}" if delta < 0 else "— same"),
         })
-    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
     st.caption(f"Each internship is worth **${effect_per_int:,.0f}** in salary, holding everything else constant.")
 
     # ── Where does this salary rank? ──────────────────────────────────────────
