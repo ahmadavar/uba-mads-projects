@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -51,7 +52,8 @@ def style_axes(axes, fig):
 # ── Data & Models ──────────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/student_salary_data.csv")
+    here = os.path.dirname(os.path.abspath(__file__))
+    df = pd.read_csv(os.path.join(here, "data", "student_salary_data.csv"))
     df["Study_Hours_Per_Week"] = df["Study_Hours_Per_Week"].fillna(df["Study_Hours_Per_Week"].median())
     df["Networking_Events"]    = df["Networking_Events"].fillna(df["Networking_Events"].median())
     df["GPA"]                  = df["GPA"].fillna(df["GPA"].median())
