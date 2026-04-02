@@ -155,17 +155,50 @@
     fill(document.querySelector('input[name="otherURL"]'), profile.website);
     fill(document.querySelector('input[id="subsidiaryQuestion"]'), "No");
 
-    // Experience — entry 0: Uber
-    fill(document.querySelector('input[name="experiences.0.companyName"]'), "Uber");
-    fill(document.querySelector('input[name="experiences.0.title"]'), "Data Analyst, Compliance");
-    fill(document.querySelector('input[name="experiences.0.startDate.year"]'), "2022");
-    fill(document.querySelector('input[name="experiences.0.endDate.year"]'), "2023");
+    // Month fields — collected by position (start/end months share same id)
+    const startMonths = document.querySelectorAll('[id="start-date-month"]');
+    const endMonths = document.querySelectorAll('[id="end-date-month"]');
 
-    // Education — entry 0: UBA
+    // Experience 0: LoanMatch AI (current)
+    fill(document.querySelector('input[name="experiences.0.companyName"]'), "LoanMatch AI");
+    fill(document.querySelector('input[name="experiences.0.title"]'), "Founding Engineer");
+    if (startMonths[0]) fill(startMonths[0], "06");
+    fill(document.querySelector('input[name="experiences.0.startDate.year"]'), "2024");
+    const exp0Current = document.querySelector('input[name="experiences.0.isCurrent"]');
+    if (exp0Current && !exp0Current.checked) { exp0Current.click(); filled++; }
+
+    // Experience 1: Career Break
+    fill(document.querySelector('input[name="experiences.1.companyName"]'), "Career Break");
+    fill(document.querySelector('input[name="experiences.1.title"]'), "Self-directed Learning & Upskilling");
+    if (startMonths[1]) fill(startMonths[1], "05");
+    fill(document.querySelector('input[name="experiences.1.startDate.year"]'), "2023");
+    if (endMonths[1]) fill(endMonths[1], "06");
+    fill(document.querySelector('input[name="experiences.1.endDate.year"]'), "2024");
+
+    // Experience 2: Uber
+    fill(document.querySelector('input[name="experiences.2.companyName"]'), "Uber");
+    fill(document.querySelector('input[name="experiences.2.title"]'), "Data Analyst (Contract)");
+    if (startMonths[2]) fill(startMonths[2], "01");
+    fill(document.querySelector('input[name="experiences.2.startDate.year"]'), "2022");
+    if (endMonths[2]) fill(endMonths[2], "05");
+    fill(document.querySelector('input[name="experiences.2.endDate.year"]'), "2023");
+
+    // Experience 3: Robert Half
+    fill(document.querySelector('input[name="experiences.3.companyName"]'), "Robert Half / Marin Housing Authority");
+    fill(document.querySelector('input[name="experiences.3.title"]'), "Staff Accountant & AR/AP Specialist");
+    if (startMonths[3]) fill(startMonths[3], "09");
+    fill(document.querySelector('input[name="experiences.3.startDate.year"]'), "2019");
+    if (endMonths[3]) fill(endMonths[3], "08");
+    fill(document.querySelector('input[name="experiences.3.endDate.year"]'), "2021");
+
+    // Education 0: UBA (current)
     fill(document.querySelector('input[name="educations.0.schoolName"]'), "University of Bay Area");
     fill(document.querySelector('input[name="educations.0.degree"]'), "Master of Science");
-    fill(document.querySelector('input[name="educations.0.fieldOfStudy"]'), "Data Science");
-    fill(document.querySelector('input[name="educations.0.startDate.year"]'), "2023");
+    fill(document.querySelector('input[name="educations.0.fieldOfStudy"]'), "Applied Data Science");
+    if (startMonths[4]) fill(startMonths[4], "08");
+    fill(document.querySelector('input[name="educations.0.startDate.year"]'), "2025");
+    const edu0Current = document.querySelector('input[name="educations.0.isCurrent"]');
+    if (edu0Current && !edu0Current.checked) { edu0Current.click(); filled++; }
 
     // Helper to click radio by exact value
     function clickRadio(name, value) {
