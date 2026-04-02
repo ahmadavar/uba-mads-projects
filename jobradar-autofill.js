@@ -145,67 +145,38 @@
 
   // ── Uber ─────────────────────────────────────────────────
   if (isUber) {
-    // Basic info
-    fill(document.querySelector('input[name="firstName"]'), profile.firstName);
-    fill(document.querySelector('input[name="lastName"]'), profile.lastName);
-    fill(document.querySelector('input[name="email"]'), profile.email);
-    fill(document.querySelector('input[name="mobileNumber"]'), profile.phone);
-    fill(document.querySelector('input[name="linkedInURL"]'), profile.linkedin);
-    fill(document.querySelector('input[name="githubURL"]'), profile.github);
-    fill(document.querySelector('input[name="otherURL"]'), profile.website);
-    fill(document.querySelector('input[id="subsidiaryQuestion"]'), "No");
+    let uberAlertShown = false;
 
-    // Month fields — collected by position (start/end months share same id)
-    const startMonths = document.querySelectorAll('[id="start-date-month"]');
-    const endMonths = document.querySelectorAll('[id="end-date-month"]');
+    // Month fill helper — dispatches focus first to trigger React validation
+    function fillMonth(el, value) {
+      if (!el) return;
+      el.focus();
+      el.dispatchEvent(new Event("focus", { bubbles: true }));
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+      setter.call(el, value);
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+      el.dispatchEvent(new Event("blur", { bubbles: true }));
+      filled++;
+    }
 
-    // Experience 0: LoanMatch AI (current)
-    fill(document.querySelector('input[name="experiences.0.companyName"]'), "LoanMatch AI");
-    fill(document.querySelector('input[name="experiences.0.title"]'), "Founding Engineer");
-    if (startMonths[0]) fill(startMonths[0], "06");
-    fill(document.querySelector('input[name="experiences.0.startDate.year"]'), "2024");
-    const exp0Current = document.querySelector('input[name="experiences.0.isCurrent"]');
-    if (exp0Current && !exp0Current.checked) { exp0Current.click(); filled++; }
-
-    // Experience 1: Career Break
-    fill(document.querySelector('input[name="experiences.1.companyName"]'), "Career Break");
-    fill(document.querySelector('input[name="experiences.1.title"]'), "Self-directed Learning & Upskilling");
-    if (startMonths[1]) fill(startMonths[1], "05");
-    fill(document.querySelector('input[name="experiences.1.startDate.year"]'), "2023");
-    if (endMonths[1]) fill(endMonths[1], "06");
-    fill(document.querySelector('input[name="experiences.1.endDate.year"]'), "2024");
-
-    // Experience 2: Uber
-    fill(document.querySelector('input[name="experiences.2.companyName"]'), "Uber");
-    fill(document.querySelector('input[name="experiences.2.title"]'), "Data Analyst (Contract)");
-    if (startMonths[2]) fill(startMonths[2], "01");
-    fill(document.querySelector('input[name="experiences.2.startDate.year"]'), "2022");
-    if (endMonths[2]) fill(endMonths[2], "05");
-    fill(document.querySelector('input[name="experiences.2.endDate.year"]'), "2023");
-
-    // Experience 3: Robert Half
-    fill(document.querySelector('input[name="experiences.3.companyName"]'), "Robert Half / Marin Housing Authority");
-    fill(document.querySelector('input[name="experiences.3.title"]'), "Staff Accountant & AR/AP Specialist");
-    if (startMonths[3]) fill(startMonths[3], "09");
-    fill(document.querySelector('input[name="experiences.3.startDate.year"]'), "2019");
-    if (endMonths[3]) fill(endMonths[3], "08");
-    fill(document.querySelector('input[name="experiences.3.endDate.year"]'), "2021");
-
-    // Education 0: UBA (current)
-    fill(document.querySelector('input[name="educations.0.schoolName"]'), "University of Bay Area");
-    fill(document.querySelector('input[name="educations.0.degree"]'), "Master of Science");
-    fill(document.querySelector('input[name="educations.0.fieldOfStudy"]'), "Applied Data Science");
-    if (startMonths[4]) fill(startMonths[4], "08");
-    fill(document.querySelector('input[name="educations.0.startDate.year"]'), "2025");
-    const edu0Current = document.querySelector('input[name="educations.0.isCurrent"]');
-    if (edu0Current && !edu0Current.checked) { edu0Current.click(); filled++; }
-
-    // Helper to click radio by exact value
     function clickRadio(name, value) {
       const el = document.querySelector(`input[name="${name}"][value="${value}"]`);
       if (el) { el.click(); filled++; }
     }
 
+    // Basic info — phone digits only (Uber rejects country code and formatting)
+    fill(document.querySelector('input[name="firstName"]'), profile.firstName);
+    fill(document.querySelector('input[name="lastName"]'), profile.lastName);
+    fill(document.querySelector('input[name="email"]'), profile.email);
+    fill(document.querySelector('input[name="mobileNumber"]'), profile.phone.replace(/\D/g, ''));
+    fill(document.querySelector('input[name="linkedInURL"]'), profile.linkedin);
+    fill(document.querySelector('input[name="githubURL"]'), profile.github);
+    fill(document.querySelector('input[name="otherURL"]'), profile.website);
+    tryFill(['input[name="zipCode"]', 'input[placeholder*="zip"]', 'input[placeholder*="Zip"]'], profile.zip);
+    selectOption(document.querySelector('select[id="subsidiaryQuestion"]'), "No");
+
+    // Radio buttons
     clickRadio("driverPartnerQuestion", "No");
     clickRadio("openRolesQuestion", "Yes");
     clickRadio("inUSA", "Yes");
@@ -217,6 +188,65 @@
     clickRadio("veteran", "I am not a Protected Veteran, Veteran, military spouse or partner");
     clickRadio("sexualOrientation", "Prefer not to say");
     clickRadio("arbitrationAgreement", "Yes, I agree to the terms of the Arbitration Agreement.");
+
+    // Experience 0: LoanMatch AI (current — already in DOM)
+    fill(document.querySelector('input[name="experiences.0.companyName"]'), "LoanMatch AI");
+    fill(document.querySelector('input[name="experiences.0.title"]'), "Founding Engineer");
+    const exp0Current = document.querySelector('input[name="experiences.0.isCurrent"]');
+    if (exp0Current && !exp0Current.checked) { exp0Current.click(); filled++; }
+    const sm0 = document.querySelectorAll('[id="start-date-month"]')[0];
+    if (sm0) fillMonth(sm0, "06");
+    fill(document.querySelector('input[name="experiences.0.startDate.year"]'), "2024");
+
+    // Education 0: UBA (current — already in DOM)
+    fill(document.querySelector('input[name="educations.0.schoolName"]'), "University of Bay Area");
+    fill(document.querySelector('input[name="educations.0.degree"]'), "Master of Science");
+    fill(document.querySelector('input[name="educations.0.fieldOfStudy"]'), "Applied Data Science");
+    const edu0Current = document.querySelector('input[name="educations.0.isCurrent"]');
+    if (edu0Current && !edu0Current.checked) { edu0Current.click(); filled++; }
+
+    // Click "Add experience" 3 times to add Career Break, Uber, Robert Half slots
+    const addExpBtn = Array.from(document.querySelectorAll('button')).find(b => b.innerText.trim().includes('Add experience'));
+    if (addExpBtn) { addExpBtn.click(); addExpBtn.click(); addExpBtn.click(); }
+
+    // Wait for React to render the 3 new slots, then fill
+    setTimeout(() => {
+      const startMonths = document.querySelectorAll('[id="start-date-month"]');
+      const endMonths = document.querySelectorAll('[id="end-date-month"]');
+
+      // Experience 1: Career Break
+      fill(document.querySelector('input[name="experiences.1.companyName"]'), "Career Break");
+      fill(document.querySelector('input[name="experiences.1.title"]'), "Self-directed Learning & Upskilling");
+      if (startMonths[1]) fillMonth(startMonths[1], "05");
+      fill(document.querySelector('input[name="experiences.1.startDate.year"]'), "2023");
+      if (endMonths[1]) fillMonth(endMonths[1], "06");
+      fill(document.querySelector('input[name="experiences.1.endDate.year"]'), "2024");
+
+      // Experience 2: Uber
+      fill(document.querySelector('input[name="experiences.2.companyName"]'), "Uber");
+      fill(document.querySelector('input[name="experiences.2.title"]'), "Data Analyst (Contract)");
+      if (startMonths[2]) fillMonth(startMonths[2], "01");
+      fill(document.querySelector('input[name="experiences.2.startDate.year"]'), "2022");
+      if (endMonths[2]) fillMonth(endMonths[2], "05");
+      fill(document.querySelector('input[name="experiences.2.endDate.year"]'), "2023");
+
+      // Experience 3: Robert Half
+      fill(document.querySelector('input[name="experiences.3.companyName"]'), "Robert Half / Marin Housing Authority");
+      fill(document.querySelector('input[name="experiences.3.title"]'), "Staff Accountant & AR/AP Specialist");
+      if (startMonths[3]) fillMonth(startMonths[3], "09");
+      fill(document.querySelector('input[name="experiences.3.startDate.year"]'), "2019");
+      if (endMonths[3]) fillMonth(endMonths[3], "08");
+      fill(document.querySelector('input[name="experiences.3.endDate.year"]'), "2021");
+
+      // Education start month (index 4 = after 4 exp start months)
+      if (startMonths[4]) fillMonth(startMonths[4], "08");
+      fill(document.querySelector('input[name="educations.0.startDate.year"]'), "2025");
+
+      uberAlertShown = true;
+      alert(`✅ JobRadar filled ${filled} fields on Uber.\n\n📋 Cover letter: copied from your clipboard.\nMake sure you copied it from your email first!\n\n📎 Resume: upload manually (browser security restriction).`);
+    }, 800);
+
+    return; // skip bottom alert — Uber fires its own from setTimeout
   }
 
   // ── Generic fallback (any ATS) ───────────────────────────
@@ -239,6 +269,6 @@
   }
 
   // ── Done ─────────────────────────────────────────────────
-  const ats = isWorkday ? "Workday" : isGreenhouse ? "Greenhouse" : isLever ? "Lever" : isAshby ? "Ashby" : isUber ? "Uber" : "Generic";
+  const ats = isWorkday ? "Workday" : isGreenhouse ? "Greenhouse" : isLever ? "Lever" : isAshby ? "Ashby" : "Generic";
   alert(`✅ JobRadar filled ${filled} fields on ${ats}.\n\n📋 Cover letter: copied from your clipboard.\nMake sure you copied it from your email first!\n\n📎 Resume: upload manually (browser security restriction).`);
 })();
