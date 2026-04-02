@@ -82,6 +82,7 @@
   const isGreenhouse = url.includes("greenhouse.io") || !!document.querySelector("#application_form");
   const isLever = url.includes("jobs.lever.co");
   const isAshby = url.includes("ashbyhq.com");
+  const isUber = url.includes("uber.com/careers");
 
   // ── Workday ──────────────────────────────────────────────
   if (isWorkday) {
@@ -142,6 +143,38 @@
     pasteFromClipboard(['textarea[name*="cover"]', 'textarea[placeholder*="cover"]']);
   }
 
+  // ── Uber ─────────────────────────────────────────────────
+  if (isUber) {
+    fill(document.querySelector('input[name="firstName"]'), profile.firstName);
+    fill(document.querySelector('input[name="lastName"]'), profile.lastName);
+    fill(document.querySelector('input[name="email"]'), profile.email);
+    fill(document.querySelector('input[name="mobileNumber"]'), profile.phone);
+    fill(document.querySelector('input[name="linkedInURL"]'), profile.linkedin);
+    fill(document.querySelector('input[name="githubURL"]'), profile.github);
+    fill(document.querySelector('input[name="otherURL"]'), profile.website);
+    // Work authorization: legalRightToWork = Yes
+    const authYes = document.querySelector('input[name="legalRightToWork"][value="true"], input[name="legalRightToWork"]');
+    if (authYes) { authYes.click(); filled++; }
+    // Visa sponsorship: requireVisaSponsorship = No
+    const visaNo = document.querySelector('input[name="requireVisaSponsorship"][value="false"]');
+    if (visaNo) { visaNo.click(); filled++; }
+    // EEO — gender: Male
+    const genderMale = Array.from(document.querySelectorAll('input[name="gender"]')).find(el => el.value === "male" || el.value === "Male" || el.value === "1");
+    if (genderMale) { genderMale.click(); filled++; }
+    // EEO — race: White
+    const raceWhite = Array.from(document.querySelectorAll('input[name="race"]')).find(el => el.value.toLowerCase().includes("white"));
+    if (raceWhite) { raceWhite.click(); filled++; }
+    // EEO — disability: No
+    const disabilityNo = Array.from(document.querySelectorAll('input[name="disability"]')).find(el => el.value === "2" || el.value.toLowerCase().includes("no") || el.value.toLowerCase().includes("don"));
+    if (disabilityNo) { disabilityNo.click(); filled++; }
+    // EEO — veteran: not protected
+    const vetNo = Array.from(document.querySelectorAll('input[name="veteran"]')).find(el => el.value.toLowerCase().includes("not") || el.value === "4");
+    if (vetNo) { vetNo.click(); filled++; }
+    // inUSA: Yes
+    const inUSA = document.querySelector('input[name="inUSA"][value="true"], input[name="inUSA"]');
+    if (inUSA) { inUSA.click(); filled++; }
+  }
+
   // ── Generic fallback (any ATS) ───────────────────────────
   const generic = [
     [['input[autocomplete="given-name"]', 'input[name="first_name"]', 'input[id="first_name"]'], profile.firstName],
@@ -162,6 +195,6 @@
   }
 
   // ── Done ─────────────────────────────────────────────────
-  const ats = isWorkday ? "Workday" : isGreenhouse ? "Greenhouse" : isLever ? "Lever" : isAshby ? "Ashby" : "Generic";
+  const ats = isWorkday ? "Workday" : isGreenhouse ? "Greenhouse" : isLever ? "Lever" : isAshby ? "Ashby" : isUber ? "Uber" : "Generic";
   alert(`✅ JobRadar filled ${filled} fields on ${ats}.\n\n📋 Cover letter: copied from your clipboard.\nMake sure you copied it from your email first!\n\n📎 Resume: upload manually (browser security restriction).`);
 })();
