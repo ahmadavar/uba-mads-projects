@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmad Naggayev — Resume</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9.8pt;
+    line-height: 1.45;
+    color: #1a1a1a;
+    background: #fff;
+  }
+
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto;
+    padding: 0.55in 0.65in 0.5in 0.65in;
+  }
+
+  /* ── Header ── */
+  .header { text-align: center; margin-bottom: 10px; }
+
+  .header h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #0d0d0d;
+    margin-bottom: 3px;
+  }
+
+  .tagline {
+    font-size: 10pt;
+    color: #444;
+    margin-bottom: 5px;
+    letter-spacing: 0.01em;
+  }
+
+  .contact {
+    font-size: 7.8pt;
+    color: #333;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+  }
+
+  .contact a { color: #1a5c8a; text-decoration: none; }
+
+  .divider {
+    border: none;
+    border-top: 1.5px solid #1a5c8a;
+    margin: 8px 0 10px 0;
+  }
+
+  /* ── Section Headers ── */
+  .section-title {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #1a5c8a;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #c8dce8;
+    padding-bottom: 2px;
+    margin-bottom: 7px;
+    margin-top: 12px;
+  }
+
+  /* ── Skills Table ── */
+  .skills-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .skills-table tr td {
+    padding: 1.5px 4px 1.5px 0;
+    vertical-align: top;
+    font-size: 9.6pt;
+  }
+
+  .skills-table td:first-child {
+    font-weight: 600;
+    color: #1a5c8a;
+    white-space: nowrap;
+    padding-right: 10px;
+    width: 155px;
+  }
+
+  /* ── Work Experience ── */
+  .job { margin-bottom: 10px; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+
+  .job-title {
+    font-weight: 700;
+    font-size: 10pt;
+  }
+
+  .job-company {
+    font-weight: 400;
+    font-size: 9.8pt;
+    color: #333;
+  }
+
+  .job-meta {
+    font-size: 9pt;
+    color: #555;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  ul {
+    padding-left: 13px;
+    margin-top: 3px;
+  }
+
+  ul li {
+    margin-bottom: 2.5px;
+    font-size: 9.6pt;
+  }
+
+  /* ── Projects ── */
+  .project { margin-bottom: 9px; }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .project-title {
+    font-weight: 700;
+    font-size: 10pt;
+  }
+
+  .project-links { font-size: 9pt; color: #1a5c8a; }
+  .project-links a { color: #1a5c8a; text-decoration: none; }
+
+  .project-stack {
+    font-size: 8.8pt;
+    color: #555;
+    margin: 1px 0 3px 0;
+  }
+
+  /* ── Education ── */
+  .edu-item { margin-bottom: 7px; }
+
+  .edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .edu-title { font-weight: 700; font-size: 10pt; }
+  .edu-org { font-weight: 400; font-size: 9.8pt; color: #333; }
+  .edu-date { font-size: 9pt; color: #555; white-space: nowrap; }
+  .edu-detail { font-size: 9.2pt; color: #444; margin-top: 1px; }
+
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { padding: 0.5in 0.6in; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>AHMAD NAGGAYEV</h1>
+    <div class="tagline">Data Engineer &nbsp;|&nbsp; AI Engineering &nbsp;|&nbsp; Ex-Uber</div>
+    <div class="contact">
+      ahmadavar956@gmail.com &nbsp;|&nbsp; (415) 812-1535 &nbsp;|&nbsp; Berkeley, CA &nbsp;|&nbsp;
+      <a href="https://linkedin.com/in/ahmadnaggayev">linkedin.com/in/ahmadnaggayev</a> &nbsp;|&nbsp;
+      <a href="https://github.com/ahmadavar">github.com/ahmadavar</a> &nbsp;|&nbsp;
+      <a href="https://www.loanmatchai.app">LoanMatch AI</a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Summary -->
+  <p style="font-size:9.6pt; line-height:1.5; margin-bottom:4px;">
+    Data engineer with production experience at Uber and 2+ years independently building AI-powered data platforms.
+    Deep hands-on experience with the modern data stack: Python, dbt, BigQuery, Apache Airflow, Apache Kafka, Apache Flink, and applied machine learning
+    (NLP, regression modeling, embedding-based similarity search). Built and deployed full-stack platforms including a fintech AI application
+    (FastAPI + Next.js + PostgreSQL) and a multi-agent job intelligence platform live in production.
+    Currently completing MS in Data Science and the DataTalks.Club Data Engineering Zoomcamp.
+    Open to Data Engineer, Analytics Engineer, and AI Engineer roles in the San Francisco Bay Area.
+  </p>
+
+  <!-- Technical Skills -->
+  <div class="section-title">Technical Skills</div>
+  <table class="skills-table">
+    <tr>
+      <td>Languages:</td>
+      <td>Python, SQL, TypeScript, Bash</td>
+    </tr>
+    <tr>
+      <td>Data Engineering:</td>
+      <td>dbt, Apache Airflow, Apache Kafka, Apache Flink, Apache Spark</td>
+    </tr>
+    <tr>
+      <td>Cloud &amp; Warehouses:</td>
+      <td>BigQuery (GCP), PostgreSQL, pgvector, Redis, Docker, GitHub Actions CI/CD</td>
+    </tr>
+    <tr>
+      <td>Frameworks:</td>
+      <td>FastAPI, Next.js 14, LangChain, Retrieval-Augmented Generation (RAG)</td>
+    </tr>
+    <tr>
+      <td>AI / ML:</td>
+      <td>Anthropic Claude API, Vector Embeddings, Voyage AI, scikit-learn, NLP (TF-IDF, NLTK, VADER), Regression (OLS, Ridge)</td>
+    </tr>
+    <tr>
+      <td>Visualization:</td>
+      <td>Tableau, Streamlit, Google Sheets Automation, Google Apps Script</td>
+    </tr>
+  </table>
+
+  <!-- Work Experience -->
+  <div class="section-title">Work Experience</div>
+
+  <!-- LoanMatch AI -->
+  <div class="job">
+    <div class="job-header">
+      <div>
+        <span class="job-title">Founding Engineer</span>
+        <span class="job-company"> &nbsp;·&nbsp; LoanMatch AI (Self-employed)</span>
+      </div>
+      <div class="job-meta">Jun 2024 – Present &nbsp;|&nbsp; San Francisco Bay Area</div>
+    </div>
+    <ul>
+      <li>Built an AI-powered loan matching platform from scratch serving gig workers and self-employed borrowers — a segment underserved by traditional underwriting systems.</li>
+      <li>Designed a 6-dimension borrower scoring engine (credit, income stability, assets, employment type, DTI, loan purpose) evaluating 52 lenders in real time across banks, credit unions, and fintechs.</li>
+      <li>Architected full-stack system: FastAPI backend, Next.js 14 frontend (TypeScript + Tailwind), PostgreSQL + pgvector — embedded borrower profiles into 1536-dimensional vector space for cosine similarity scoring; Redis for session management and rate limiting.</li>
+      <li>Integrated Anthropic Claude API multi-agent system for conversational borrower intake — converts natural language into structured profiles with zero manual input.</li>
+      <li>Deployed to production on Railway with Docker and GitHub Actions CI/CD. Live at loanmatchai.app.</li>
+    </ul>
+  </div>
+
+  <!-- Career Break -->
+  <div class="job">
+    <div class="job-header">
+      <div>
+        <span class="job-title">Self-directed Learning &amp; Upskilling</span>
+        <span class="job-company"> &nbsp;·&nbsp; Career Break</span>
+      </div>
+      <div class="job-meta">May 2023 – Jun 2024 &nbsp;|&nbsp; San Francisco Bay Area</div>
+    </div>
+    <ul>
+      <li>Completed Python for Data Engineering, AI Engineering (Scrimba), and DS4A Graduate Certificate (Correlation One) — full-time transition from finance and analytics into data engineering and machine learning platform development.</li>
+    </ul>
+  </div>
+
+  <!-- Uber -->
+  <div class="job">
+    <div class="job-header">
+      <div>
+        <span class="job-title">Data Analyst</span>
+        <span class="job-company"> &nbsp;·&nbsp; Uber (Contract)</span>
+      </div>
+      <div class="job-meta">Jan 2022 – May 2023 &nbsp;|&nbsp; San Francisco, CA</div>
+    </div>
+    <ul>
+      <li>Engineered KPI tracking dashboards to monitor data migration performance — reduced Jira tickets from ingestion errors by 70%.</li>
+      <li>Automated GA4 reports and email workflows with Google Apps Script, cutting manual reporting by 10+ hours/week.</li>
+      <li>Replaced third-party automation tools with in-house data pipelines, strengthening data ownership and reducing licensing costs.</li>
+      <li>Built automated Tableau and Google Sheets compliance dashboards tracking deadlines in real time — reduced late submissions by 45%.</li>
+    </ul>
+  </div>
+
+  <!-- Accounting Roles (collapsed) -->
+  <div class="job">
+    <div class="job-header">
+      <div>
+        <span class="job-title">Staff Accountant &amp; AR/AP Specialist</span>
+        <span class="job-company"> &nbsp;·&nbsp; Robert Half / Marin Housing Authority (Contract)</span>
+      </div>
+      <div class="job-meta">Sep 2019 – Aug 2021 &nbsp;|&nbsp; San Francisco Bay Area</div>
+    </div>
+    <ul>
+      <li>Used SQL queries to reconcile AP/AR transactions, automate anomaly detection workflows, and build reporting dashboards — reducing close discrepancies by 85% and saving 25+ staff hours/month.</li>
+    </ul>
+  </div>
+
+  <!-- Projects -->
+  <div class="section-title">Projects</div>
+
+  <!-- JobRadar -->
+  <div class="project">
+    <div class="project-header">
+      <span class="project-title">JobRadar &nbsp;— &nbsp;AI Job Search Platform</span>
+      <span class="project-links">
+        <a href="https://github.com/ahmadavar/jobradar">GitHub</a>
+      </span>
+    </div>
+    <div class="project-stack">FastAPI · PostgreSQL · pgvector · Apache Airflow · dbt · Anthropic Claude · Voyage AI · Docker · Python</div>
+    <ul>
+      <li>Built a multi-agent AI job search platform ingesting 650+ jobs daily from Adzuna and JSearch APIs with automated deduplication across sources.</li>
+      <li>Designed 5-agent orchestration pipeline (Orchestrator → Scraper → Matcher → Writer → Notifier) scoring jobs against resume embeddings using cosine similarity via pgvector.</li>
+      <li>Implemented semantic job matching engine using Voyage AI embeddings — ranks job listings by relevance score enabling targeted, prioritized applications.</li>
+    </ul>
+  </div>
+
+  <!-- LoanMatch AI -->
+  <div class="project">
+    <div class="project-header">
+      <span class="project-title">LoanMatch AI &nbsp;— &nbsp;Fintech Platform</span>
+      <span class="project-links">
+        <a href="https://www.loanmatchai.app">www.loanmatchai.app</a> &nbsp;|&nbsp;
+        <a href="https://github.com/ahmadavar/loan-matching-ai">GitHub</a>
+      </span>
+    </div>
+    <div class="project-stack">FastAPI · Next.js 14 · PostgreSQL · pgvector · Redis · Anthropic Claude · Docker · Railway · GitHub Actions</div>
+    <ul>
+      <li>Full-stack AI loan matching platform — 6-factor scoring engine, 52-lender database, conversational AI intake, live in production.</li>
+    </ul>
+  </div>
+
+  <!-- ML Projects -->
+  <div class="project">
+    <div class="project-header">
+      <span class="project-title">ML Projects &nbsp;— &nbsp;NLP &amp; Regression</span>
+      <span class="project-links"><a href="https://github.com/ahmadavar">GitHub</a></span>
+    </div>
+    <div class="project-stack">scikit-learn · NLTK · VADER · TF-IDF · statsmodels · pandas · Streamlit</div>
+    <ul>
+      <li>Built NLP text classifier on 1,879 Reddit posts — Naive Bayes achieved 94% accuracy, 99% precision, &lt;1ms inference.</li>
+      <li>Built and deployed OLS regression model quantifying salary determinants (R²=0.532 vs. 0.088 baseline); live on Streamlit Cloud.</li>
+    </ul>
+  </div>
+
+  <!-- NYC Taxi -->
+  <div class="project">
+    <div class="project-header">
+      <span class="project-title">NYC Taxi Data Pipeline &nbsp;— &nbsp;End-to-End Data Engineering</span>
+      <span class="project-links"><a href="https://github.com/ahmadavar/data-engineering-zoomcamp-2026">GitHub</a></span>
+    </div>
+    <div class="project-stack">dbt · BigQuery · Apache Airflow · Apache Spark · Apache Kafka · Apache Flink · Docker · GCP</div>
+    <ul>
+      <li>Production data pipeline on 476K+ NYC taxi trips: Airflow orchestration, dbt transformations on BigQuery, Spark batch processing, real-time streaming with Kafka + PyFlink session and tumbling windows.</li>
+    </ul>
+  </div>
+
+  <!-- Education -->
+  <div class="section-title">Education</div>
+
+  <div class="edu-item">
+    <div class="edu-header">
+      <div><span class="edu-title">MS in Applied Data Science</span> <span class="edu-org">&nbsp;·&nbsp; University of Bay Area</span></div>
+      <div class="edu-date">Aug 2025 – Aug 2027</div>
+    </div>
+    <div class="edu-detail">Coursework: Statistical Inference, Probability, NLP, Machine Learning &nbsp;|&nbsp; $15K Merit Scholarship</div>
+  </div>
+
+  <div class="edu-item">
+    <div class="edu-header">
+      <div><span class="edu-title">Data Engineering Zoomcamp</span> <span class="edu-org">&nbsp;·&nbsp; DataTalks.Club</span></div>
+      <div class="edu-date">2026</div>
+    </div>
+    <div class="edu-detail">7-module program: Docker, Apache Airflow, dbt, BigQuery, Apache Spark, Apache Kafka, PyFlink</div>
+  </div>
+
+  <div class="edu-item">
+    <div class="edu-header">
+      <div><span class="edu-title">Data Science Immersive</span> <span class="edu-org">&nbsp;·&nbsp; General Assembly</span></div>
+      <div class="edu-date">Feb 2025 – May 2025</div>
+    </div>
+    <div class="edu-detail">Adobe Digital Academy Scholarship recipient</div>
+  </div>
+
+  <div class="edu-item">
+    <div class="edu-header">
+      <div><span class="edu-title">BS in Accounting</span></div>
+      <div class="edu-date">Sep 2008 – Aug 2012</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
