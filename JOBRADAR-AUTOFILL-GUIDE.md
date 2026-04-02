@@ -78,6 +78,24 @@ document.querySelectorAll('input, textarea, select').forEach(el => console.log(e
 
 ---
 
+## vs Simplify / JobRight (Chrome Extensions)
+
+| | JobRadar Autofill | Simplify / JobRight |
+|--|--|--|
+| Safari support | ✅ Yes | ❌ Chrome only |
+| EEO fields (veteran, disability, race) | ✅ Fully filled | ❌ Skipped |
+| Cover letter auto-paste | ✅ From clipboard | ❌ Not supported |
+| Privacy | ✅ Runs locally, nothing uploaded | ❌ Resume sent to their servers |
+| Cost | ✅ Free forever | ❌ $30/month for pro |
+| Customizable | ✅ You own the code | ❌ No |
+| One-click | ❌ Console required (2-3 steps) | ✅ Browser extension click |
+| Application history tracking | ❌ Not yet | ✅ Built-in |
+| ATS coverage out of the box | Growing (6 so far) | 500K+ users, battle-tested |
+
+**Bottom line:** Use JobRadar autofill for EEO-heavy forms, Safari, and cover letter pasting. Simplify wins on convenience if you switch to Chrome. Long-term, JobRadar autofill will be embedded directly into the JobRadar dashboard as a proper extension.
+
+---
+
 ## Cover Letter
 
 The script reads your clipboard. Before running autofill:
