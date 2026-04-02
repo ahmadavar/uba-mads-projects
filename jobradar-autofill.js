@@ -145,6 +145,7 @@
 
   // ── Uber ─────────────────────────────────────────────────
   if (isUber) {
+    // Basic info
     fill(document.querySelector('input[name="firstName"]'), profile.firstName);
     fill(document.querySelector('input[name="lastName"]'), profile.lastName);
     fill(document.querySelector('input[name="email"]'), profile.email);
@@ -152,27 +153,37 @@
     fill(document.querySelector('input[name="linkedInURL"]'), profile.linkedin);
     fill(document.querySelector('input[name="githubURL"]'), profile.github);
     fill(document.querySelector('input[name="otherURL"]'), profile.website);
-    // Work authorization: legalRightToWork = Yes
-    const authYes = document.querySelector('input[name="legalRightToWork"][value="true"], input[name="legalRightToWork"]');
-    if (authYes) { authYes.click(); filled++; }
-    // Visa sponsorship: requireVisaSponsorship = No
-    const visaNo = document.querySelector('input[name="requireVisaSponsorship"][value="false"]');
-    if (visaNo) { visaNo.click(); filled++; }
-    // EEO — gender: Male
-    const genderMale = Array.from(document.querySelectorAll('input[name="gender"]')).find(el => el.value === "male" || el.value === "Male" || el.value === "1");
-    if (genderMale) { genderMale.click(); filled++; }
-    // EEO — race: White
-    const raceWhite = Array.from(document.querySelectorAll('input[name="race"]')).find(el => el.value.toLowerCase().includes("white"));
-    if (raceWhite) { raceWhite.click(); filled++; }
-    // EEO — disability: No
-    const disabilityNo = Array.from(document.querySelectorAll('input[name="disability"]')).find(el => el.value === "2" || el.value.toLowerCase().includes("no") || el.value.toLowerCase().includes("don"));
-    if (disabilityNo) { disabilityNo.click(); filled++; }
-    // EEO — veteran: not protected
-    const vetNo = Array.from(document.querySelectorAll('input[name="veteran"]')).find(el => el.value.toLowerCase().includes("not") || el.value === "4");
-    if (vetNo) { vetNo.click(); filled++; }
-    // inUSA: Yes
-    const inUSA = document.querySelector('input[name="inUSA"][value="true"], input[name="inUSA"]');
-    if (inUSA) { inUSA.click(); filled++; }
+    fill(document.querySelector('input[id="subsidiaryQuestion"]'), "No");
+
+    // Experience — entry 0: Uber
+    fill(document.querySelector('input[name="experiences.0.companyName"]'), "Uber");
+    fill(document.querySelector('input[name="experiences.0.title"]'), "Data Analyst, Compliance");
+    fill(document.querySelector('input[name="experiences.0.startDate.year"]'), "2022");
+    fill(document.querySelector('input[name="experiences.0.endDate.year"]'), "2023");
+
+    // Education — entry 0: UBA
+    fill(document.querySelector('input[name="educations.0.schoolName"]'), "University of Bay Area");
+    fill(document.querySelector('input[name="educations.0.degree"]'), "Master of Science");
+    fill(document.querySelector('input[name="educations.0.fieldOfStudy"]'), "Data Science");
+    fill(document.querySelector('input[name="educations.0.startDate.year"]'), "2023");
+
+    // Helper to click radio by exact value
+    function clickRadio(name, value) {
+      const el = document.querySelector(`input[name="${name}"][value="${value}"]`);
+      if (el) { el.click(); filled++; }
+    }
+
+    clickRadio("driverPartnerQuestion", "No");
+    clickRadio("openRolesQuestion", "Yes");
+    clickRadio("inUSA", "Yes");
+    clickRadio("legalRightToWork", "Yes");
+    clickRadio("requireVisaSponsorship", "No");
+    clickRadio("gender", "Male");
+    clickRadio("race", "White (Not Hispanic or Latino)");
+    clickRadio("disability", "No, I do not have a disability");
+    clickRadio("veteran", "I am not a Protected Veteran, Veteran, military spouse or partner");
+    clickRadio("sexualOrientation", "Prefer not to say");
+    clickRadio("arbitrationAgreement", "Yes, I agree to the terms of the Arbitration Agreement.");
   }
 
   // ── Generic fallback (any ATS) ───────────────────────────
