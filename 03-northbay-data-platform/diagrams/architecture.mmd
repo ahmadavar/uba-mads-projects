@@ -1,0 +1,120 @@
+flowchart TD
+    subgraph SOURCES["Data Sources"]
+        S1["1. NorthBay OLTP\nPostgreSQL 14\nCDC stream"]
+        S2["2. Product Catalog\nMongoDB\nChange stream"]
+        S3["3. Salesforce\nREST API + webhook"]
+        S4["4. Store POS\nCSV via SFTP\n160 stores"]
+        S5["5. Mobile App Events\nKafka / Avro\n50-80K events/min"]
+        S6["6. PantryPlus Loyalty\nREST API + webhook"]
+        S7["7. Customer Reviews\nWeb scraping\nHTML unstructured"]
+        S8["8. Marketing Platforms\n4x REST APIs"]
+        S9["9. Supplier EDI\nXML via FTP"]
+        S10["10. Support Calls\nWAV audio in S3"]
+    end
+
+    subgraph INGEST["Ingestion Layer"]
+        K["Apache Kafka\n+ Schema Registry\nStreaming sources"]
+        A["Apache Airflow\nBatch orchestration"]
+        SC["Scrapy\nWeb scraper"]
+        TR["AWS Transcribe\nAudio → transcript"]
+    end
+
+    subgraph BRONZE["Bronze Layer — GCS/S3 (Immutable Raw)"]
+        B1["raw/oltp/ Avro CDC events"]
+        B2["raw/catalog/ JSON snapshots"]
+        B3["raw/salesforce/ JSON cases"]
+        B4["raw/pos/ CSV per store/date"]
+        B5["raw/events/ Avro clickstream"]
+        B6["raw/loyalty/ JSON snapshots"]
+        B7["raw/reviews/ JSON extracted"]
+        B8["raw/marketing/ JSON per platform"]
+        B9["raw/supplier/ XML files"]
+        B10["raw/calls/ WAV + transcripts"]
+    end
+
+    subgraph SILVER["Silver Layer — BigQuery (Cleaned + Validated)"]
+        SV1["stg_orders\nstg_customers\nstg_returns"]
+        SV2["stg_products\n(flattened, typed)"]
+        SV3["stg_cases\nstg_transcripts"]
+        SV4["stg_pos_transactions\n(normalized headers)"]
+        SV5["stg_events\n(deduplicated)"]
+        SV6["stg_loyalty_members"]
+        SV7["stg_reviews\n(language tagged)"]
+        SV8["stg_ad_spend\n(unified schema)"]
+        SV9["stg_invoices\nstg_asns"]
+        SV10["stg_call_transcripts\n(PII masked)"]
+        GUM["golden_customer_master\n(entity resolved)"]
+        GUM2["golden_product_master\n(MDM)"]
+    end
+
+    subgraph GOLD["Gold Layer — BigQuery (Business-Ready)"]
+        G1["finance_daily_revenue\nmargin_by_store"]
+        G2["merchandising_sku_performance\nsupplier_scorecard"]
+        G3["marketing_attribution\ncampaign_roi"]
+        G4["customer_360_view\n< 2 sec lookup"]
+        G5["ops_inventory\nout_of_stock"]
+        FS["Feature Store\nFeast + Redis\nchurn / forecast / reco"]
+    end
+
+    subgraph CONSUMERS["Consumers"]
+        FIN["Finance\nLooker dashboards\n7AM SLA"]
+        MER["Merchandising\nWeekly buyer review"]
+        MKT["Marketing\nROI attribution"]
+        DS["Data Science\nML models"]
+        CS["Customer Success\nCall center 360°"]
+        OPS["Operations\nStore dashboards"]
+        PL["Privacy/Legal\nGDPR/CCPA erasure"]
+    end
+
+    S1 -->|"Avro CDC, real-time"| K
+    S2 -->|"JSON, real-time"| K
+    S5 -->|"Avro, streaming"| K
+    S3 -->|"JSON, 4hr + webhook"| A
+    S4 -->|"CSV, daily 03:00 UTC"| A
+    S6 -->|"JSON, daily + webhook"| A
+    S7 -->|"HTML, daily batch"| SC
+    S8 -->|"JSON, daily/hourly"| A
+    S9 -->|"XML, daily"| A
+    S10 -->|"WAV, continuous"| TR
+
+    K -->|"Kafka Connect"| B1
+    K -->|"Kafka Connect"| B2
+    K -->|"Kafka Connect"| B5
+    A --> B3
+    A --> B4
+    A --> B6
+    A --> B8
+    A --> B9
+    SC --> B7
+    TR --> B10
+
+    B1 -->|"dbt staging"| SV1
+    B2 -->|"dbt staging"| SV2
+    B3 -->|"dbt staging"| SV3
+    B4 -->|"dbt staging"| SV4
+    B5 -->|"dbt staging"| SV5
+    B6 -->|"dbt staging"| SV6
+    B7 -->|"dbt staging"| SV7
+    B8 -->|"dbt staging"| SV8
+    B9 -->|"dbt staging"| SV9
+    B10 -->|"dbt staging"| SV10
+
+    SV1 --> GUM
+    SV3 --> GUM
+    SV6 --> GUM
+    SV2 --> GUM2
+
+    GUM -->|"dbt gold"| G1
+    GUM -->|"dbt gold"| G2
+    GUM -->|"dbt gold"| G3
+    GUM -->|"dbt gold"| G4
+    GUM -->|"dbt gold"| G5
+    GUM --> FS
+
+    G1 --> FIN
+    G2 --> MER
+    G3 --> MKT
+    FS --> DS
+    G4 --> CS
+    G5 --> OPS
+    GUM --> PL
